@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Productos</title>
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --badge-bg: #e0e7ff;
+            --badge-text: #3730a3;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin: 0;
+            color: var(--text-main);
+        }
+
+        .card-container {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        td {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.95rem;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .product-price {
+            font-weight: 600;
+            color: #059669;
+        }
+
+        .category-badge {
+            display: inline-block;
+            background-color: var(--badge-bg);
+            color: var(--badge-text);
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>Catálogo de Productos</h1>
+        </div>
+
+        <div class="card-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Categoría</th>
+                        <th>Precio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- El bucle debe envolver las filas (tr) para que se repitan -->
+                    {% for p in productos %}
+                    <tr>
+                        <td class="product-name">{{ p.nombre }}</td>
+                        <td>
+                            <!-- Como categoria es un ForeignKey, accedemos al objeto y su __str__ -->
+                            <span class="category-badge">{{ p.categoria }}</span>
+                        </td>
+                        <td class="product-price">${{ p.precio }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3" class="empty-state">No hay productos registrados actualmente.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>
